@@ -1,31 +1,44 @@
+from typing import List
+
 from Pyfhel import Pyfhel, PyCtxt
 from ..models.document import PyCDocument
+from ..models.similarity import PyCSimilarity, Similarity
+
 
 from .enc import get_he_context
 from .storage import get_content
 
 
-def get_top_list(encrypted_query: PyCDocument):
+def get_top_list(c_query_document: PyCDocument) -> List[PyCSimilarity]:
 
-    documents = get_content("documents")
-
-    c_query_embedding = encrypted_query.embedding
+    encrypted_documents = get_content("encrypted_documents")
 
     he = get_he_context()
-    print(f"{he=}")
 
-    for doc in documents:
+    c_similarity_list = []
 
-        c_result = _compute_cosine_similarity(c_query_embedding, doc.embedding)
+    sim_list = []  # debug
 
-        computed_cosine_sim = decrypt_result(he, c_result)
-        print(f"doc={doc.index}: {computed_cosine_sim}")
+    for doc in encrypted_documents:
 
-    return c_result
+        c_score = _compute_cosine_similarity(c_query_document.embedding, doc.embedding)
+
+        similarity = PyCSimilarity(index=doc.index, score=c_score)
+        c_similarity_list.append(similarity)
+
+        # debug
+        score = decrypt_result(he, c_score)
+        print(f"{score=}")
+        sim_list.append(Similarity(index=doc.index, score=score[0]))
+
+    print(sim_list)  # debug
+    return sim_list
+
+    return c_similarity_list
 
 
 def decrypt_result(he: Pyfhel, c_result: PyCtxt) -> float:
-    return he.decrypt(c_result)[0]
+    return he.decrypt(c_result)
 
 
 def _compute_cosine_similarity(ctxt_v1: PyCtxt, ctxt_v2: PyCtxt) -> PyCtxt:

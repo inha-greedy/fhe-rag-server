@@ -25,6 +25,7 @@ app.include_router(document_router)
 # set default HE Key
 set_he_context()
 
+
 @app.middleware("http")
 async def add_user_id_to_request(request: Request, call_next):
     """

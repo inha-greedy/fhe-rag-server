@@ -1,8 +1,9 @@
+import base64
+
 from Pyfhel import PyCtxt
 from pydantic import BaseModel, Field
 import numpy as np
 
-import base64
 from ..services.enc import get_he_context
 
 
