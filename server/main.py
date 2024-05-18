@@ -5,7 +5,6 @@ from .routes.chat import chat_router
 from .routes.document import document_router
 from .routes.key import key_router
 from .services.session import set_user_id
-from .services.enc import set_he_context
 
 
 app = FastAPI()
@@ -23,8 +22,6 @@ app.add_middleware(
 app.include_router(chat_router)
 app.include_router(document_router)
 app.include_router(key_router)
-# set default HE Key
-set_he_context()
 
 
 @app.middleware("http")

@@ -1,6 +1,7 @@
 # macOS
 .DS_Store
 *tempCodeRunnerFile*
+storage/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
