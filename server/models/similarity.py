@@ -1,14 +1,10 @@
 import base64
 
-from Pyfhel import PyCtxt
+from Pyfhel import PyCtxt, Pyfhel
 from pydantic import BaseModel, Field
 
-from ..services.storage import load_he_from_key
 
-
-class Similarity(BaseModel):
-    index: int
-    score: float
+# not use Similarity Model (all data in server are encrypted)
 
 
 class PyCSimilarity(BaseModel):
@@ -29,9 +25,7 @@ class PyCSimilarityDto(BaseModel):
             "score": self.score,
         }
 
-    def to_similarity(self):
-        he = load_he_from_key()
-
+    def to_similarity(self, he: Pyfhel):
         index = self.index
         score = PyCtxt(pyfhel=he, bytestring=base64.b64decode(self.score))
 

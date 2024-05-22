@@ -2,16 +2,9 @@ import base64
 
 from Pyfhel import PyCtxt, Pyfhel
 from pydantic import BaseModel, Field
-import numpy as np
 
 
-class Document(BaseModel):
-    index: int
-    document: str
-    embedding: np.ndarray = Field(default_factory=lambda: np.zeros(3))
-
-    class Config:
-        arbitrary_types_allowed = True
+# not use Document Model (all data in server are encrypted)
 
 
 class PyCDocument(BaseModel):
