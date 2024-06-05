@@ -39,6 +39,8 @@ def save_public_key(contents: bytes) -> None:
     with open(key_path, "wb") as fp:
         fp.write(contents)
 
+    print(f"key saved: {key_path}")
+
 
 def load_he_from_key() -> Pyfhel:
     key_path = _get_key_path()
